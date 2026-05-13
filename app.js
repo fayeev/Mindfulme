@@ -416,35 +416,62 @@ const voiceBtn = document.getElementById("voice-btn");
 const voiceStatus = document.getElementById("voice-status");
 const noteTextarea = document.getElementById("daily-note");
 
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let isRecording = false;
 
 if (SpeechRecognition) {
   const recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = false;
+
+  recognition.continuous = true;
+  recognition.interimResults = true;
   recognition.lang = "en-US";
 
   voiceBtn.addEventListener("click", () => {
-    recognition.start();
-    voiceStatus.textContent = "Listening...";
+    if (!isRecording) {
+      recognition.start();
+      isRecording = true;
+
+      voiceBtn.classList.add("recording");
+      voiceStatus.textContent = "Listening...";
+      voiceBtn.textContent = "Stop Recording";
+    } else {
+      recognition.stop();
+      isRecording = false;
+
+      voiceBtn.classList.remove("recording");
+      voiceStatus.textContent = "Recording stopped.";
+      voiceBtn.textContent = "Start Recording";
+    }
   });
 
   recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    noteTextarea.value += (noteTextarea.value ? " " : "") + transcript;
-    voiceStatus.textContent = "Added to your note.";
+    let transcript = "";
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    noteTextarea.value = transcript;
   };
 
-  recognition.onerror = () => {
-    voiceStatus.textContent = "Voice recognition error. Try again.";
+  recognition.onerror = (event) => {
+    console.error(event.error);
+    voiceStatus.textContent = "Voice recognition error.";
   };
 
   recognition.onend = () => {
-    voiceStatus.textContent = "Tap to record again.";
+    // Auto-restart if still recording
+    if (isRecording) {
+      recognition.start();
+    }
   };
 
 } else {
-  voiceStatus.textContent = "Speech recognition not supported in this browser.";
+  voiceStatus.textContent =
+    "Speech recognition not supported in this browser.";
+
   voiceBtn.disabled = true;
 }
 
