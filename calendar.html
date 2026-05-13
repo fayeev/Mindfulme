@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindfulMe – Calendar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+</head>
+<body>
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="mood-bg" id="mood-bg"></div>
+  <nav class="navbar">
+    <div class="nav-brand">🌿 MindfulMe</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link active">Calendar</a>
+      <a href="history.html" class="nav-link">History</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="card">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" id="prev-month">‹</button>
+        <h2 class="cal-title" id="cal-title"></h2>
+        <button class="cal-nav-btn" id="next-month">›</button>
+      </div>
+      <div class="cal-weekdays">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+        <span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+
+      <!-- Mood Legend -->
+      <div class="mood-legend" style="margin-top:1.25rem;">
+        <span class="legend-item"><span class="legend-dot" style="background:#fde68a"></span>Happy</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#bae6fd"></span>Calm</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#ddd6fe"></span>Excited</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#86efac"></span>No mood</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#fca5a5"></span>Stressed</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#d1d5db"></span>Sad/Tired</span>
+      </div>
+    </section>
+
+    <!-- Day Detail Card -->
+    <section class="card hidden" id="day-detail">
+      <h3 class="detail-date" id="detail-date"></h3>
+      <div class="detail-mood" id="detail-mood"></div>
+      <div class="detail-habits" id="detail-habits"></div>
+      <div class="detail-note" id="detail-note"></div>
+    </section>
+
+    <!-- Monthly Mood Message -->
+    <section class="card mood-summary-card" id="mood-summary">
+      <h2 class="section-title">Monthly Mood Summary</h2>
+      <div class="mood-summary-grid" id="mood-summary-grid"></div>
+      <div class="mood-advice" id="mood-advice"></div>
+    </section>
+  </main>
+
+  <script src="calendar.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindfulMe – History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+</head>
+<body>
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="mood-bg" id="mood-bg"></div>
+  <nav class="navbar">
+    <div class="nav-brand">🌿 MindfulMe</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="history.html" class="nav-link active">History</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <h1 class="page-title">Wellness History</h1>
+      <button class="clear-btn" id="clear-btn">🗑 Clear All</button>
+    </div>
+
+    <div id="history-empty" class="empty-state hidden">
+      <div class="empty-icon">📋</div>
+      <p>No history yet. Start your first check-in!</p>
+      <a href="index.html" class="save-btn" style="display:inline-block;text-decoration:none;margin-top:1rem;">Go to Dashboard</a>
+    </div>
+
+    <div id="history-list"></div>
+  </main>
+
+  <script src="history.js"></script>
+</body>
+</html>

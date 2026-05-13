@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindfulMe – Daily Wellness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+</head>
+<body data-mood="">
+
+  <!-- Floating Shape Decorations -->
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+
+  <!-- Mood Background Layer -->
+  <div class="mood-bg" id="mood-bg"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">🌿 MindfulMe</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="history.html" class="nav-link">History</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- TOP ROW: Greeting + Streak + Badge -->
+    <section class="top-row">
+      <div class="greeting-card">
+        <p class="greeting-sub" id="greeting-time">Good morning</p>
+        <h1 class="greeting-title">How are you feeling today?</h1>
+        <p class="greeting-date" id="today-date"></p>
+      </div>
+      <div class="stats-col">
+        <div class="stat-card streak-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-num" id="streak-count">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-card badge-card" id="badge-card">
+          <div class="stat-icon" id="badge-icon">🌱</div>
+          <div class="stat-label" id="badge-label">Just Starting</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAILY MOTIVATION CARD -->
+    <section class="motivation-card" id="motivation-card">
+      <div class="motivation-label">✨ Daily Motivation</div>
+      <p class="motivation-text" id="motivation-text">Loading your message...</p>
+    </section>
+
+    <!-- MOOD CHECK-IN -->
+    <section class="card mood-section">
+      <h2 class="section-title">Mood Check-in</h2>
+
+      <!-- Mood Buttons -->
+      <div class="mood-grid">
+        <button class="mood-btn" data-mood="happy">
+          <span class="mood-emoji">😊</span>
+          <span class="mood-text">Happy</span>
+        </button>
+        <button class="mood-btn" data-mood="calm">
+          <span class="mood-emoji">😌</span>
+          <span class="mood-text">Calm</span>
+        </button>
+        <button class="mood-btn" data-mood="tired">
+          <span class="mood-emoji">😴</span>
+          <span class="mood-text">Tired</span>
+        </button>
+        <button class="mood-btn" data-mood="stressed">
+          <span class="mood-emoji">😰</span>
+          <span class="mood-text">Stressed</span>
+        </button>
+        <button class="mood-btn" data-mood="sad">
+          <span class="mood-emoji">😔</span>
+          <span class="mood-text">Sad</span>
+        </button>
+        <button class="mood-btn" data-mood="excited">
+          <span class="mood-emoji">🤩</span>
+          <span class="mood-text">Excited</span>
+        </button>
+      </div>
+
+      <!-- Mood Intensity Slider -->
+      <div class="slider-wrap">
+        <label class="slider-label">Mood Intensity: <strong id="slider-val">5</strong>/10</label>
+        <input type="range" min="1" max="10" value="5" id="mood-slider" class="mood-slider" />
+        <div class="slider-ends"><span>Low</span><span>High</span></div>
+      </div>
+
+      <!-- Mood Context Message -->
+      <div class="context-msg hidden" id="context-msg">
+        <span id="context-text"></span>
+      </div>
+
+      <!-- Music Suggestion -->
+      <div class="music-suggestion hidden" id="music-suggestion">
+        <div class="music-icon">🎵</div>
+        <div class="music-text" id="music-text"></div>
+      </div>
+    </section>
+
+    <!-- WELLNESS TRACKERS -->
+    <section class="card trackers-section">
+      <h2 class="section-title">Wellness Trackers</h2>
+      <div class="trackers-grid">
+        <!-- Water Intake -->
+        <div class="tracker-block">
+          <div class="tracker-header">
+            <span class="tracker-icon">💧</span>
+            <span class="tracker-name">Water Intake</span>
+            <span class="tracker-val"><span id="water-count">0</span>/8 glasses</span>
+          </div>
+          <div class="water-glasses" id="water-glasses">
+            <!-- filled by JS -->
+          </div>
+        </div>
+        <!-- Sleep -->
+        <div class="tracker-block">
+          <div class="tracker-header">
+            <span class="tracker-icon">🌙</span>
+            <span class="tracker-name">Sleep Last Night</span>
+          </div>
+          <div class="sleep-inputs">
+            <input type="number" id="sleep-hours" class="sleep-input" min="0" max="12" placeholder="hrs" />
+            <span class="sleep-unit">hours</span>
+          </div>
+          <div class="sleep-feedback" id="sleep-feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODAY'S TO-DO HABITS -->
+    <section class="card habits-section">
+      <div class="habits-header">
+        <h2 class="section-title" style="margin-bottom:0">Today's To-Do</h2>
+        <button class="add-habit-btn" id="add-habit-btn">+ Add Task</button>
+      </div>
+
+      <!-- Add Task Form -->
+      <div class="add-task-form hidden" id="add-task-form">
+        <input type="text" id="new-task-input" class="task-input" placeholder="Enter your task..." maxlength="60" />
+        <div class="task-form-actions">
+          <select id="task-category" class="task-select">
+            <option value="general">📌 General</option>
+            <option value="health">💪 Health</option>
+            <option value="study">📚 Study</option>
+            <option value="work">💼 Work</option>
+            <option value="personal">🌟 Personal</option>
+          </select>
+          <button class="btn-confirm" id="confirm-add-btn">Add</button>
+          <button class="btn-cancel" id="cancel-add-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress-info">
+          <span id="habits-done">0</span> of <span id="habits-total">0</span> completed
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Habit List -->
+      <ul class="habit-list" id="habit-list">
+        <!-- filled by JS -->
+      </ul>
+
+      <div class="empty-habits hidden" id="empty-habits">
+        <p>No tasks yet. Add your first task above! 👆</p>
+      </div>
+    </section>
+
+<!-- JOURNAL SECTION -->
+<section class="card journal-section">
+  <h2 class="section-title">📓 Journal</h2>
+
+  <div class="journal-prompt" id="journal-prompt">
+    <span class="prompt-label">Today's Prompt 💬</span>
+    <p id="prompt-text"></p>
+  </div>
+
+  <div class="journal-inputs">
+
+    <div class="input-group">
+      <label class="input-label">Today's Reflection</label>
+      <input
+        type="text"
+        id="reflection-input"
+        class="reflection-input"
+        placeholder="One sentence about your day..."
+        maxlength="200"
+      />
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Why do you feel this way?</label>
+      <textarea
+        id="daily-note"
+        class="note-textarea"
+        placeholder="Write freely... (optional)"
+        maxlength="500"
+      ></textarea>
+      <div class="note-count">
+        <span id="char-count">0</span>/500
+      </div>
+    </div>
+
+    <!-- VOICE JOURNAL -->
+    <div class="input-group">
+      <label class="input-label">
+        🎙️ Voice Journal <span class="voice-badge">Accessibility</span>
+      </label>
+
+      <div class="voice-controls">
+        <button class="voice-btn" id="voice-btn">🎙️ Tap to Record</button>
+        <span class="voice-status" id="voice-status">
+          Your speech will appear in the note above.
+        </span>
+      </div>
+
+      <div class="voice-wave hidden" id="voice-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+    <!-- SAVE BUTTON -->
+    <div class="save-row">
+      <button class="save-btn" id="save-btn">Save Today's Check-in ✓</button>
+    </div>
+
+    <!-- MONTHLY MOOD BOARD (inline preview) -->
+    <section class="card moodboard-section">
+      <div class="moodboard-header">
+        <h2 class="section-title" style="margin-bottom:0">This Month's Mood</h2>
+        <a href="calendar.html" class="view-all-link">View full calendar →</a>
+      </div>
+      <div class="mini-moodboard" id="mini-moodboard">
+        <!-- filled by JS -->
+      </div>
+      <div class="mood-legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#fde68a"></span>Happy</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#bae6fd"></span>Calm</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#ddd6fe"></span>Excited</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#fca5a5"></span>Stressed</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#d1d5db"></span>Sad/Tired</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Habit Encouragement Popup -->
+  <div class="popup-overlay hidden" id="popup-overlay">
+    <div class="popup-card">
+      <div class="popup-emoji" id="popup-emoji">🎉</div>
+      <h3 class="popup-title" id="popup-title">Amazing!</h3>
+      <p class="popup-msg" id="popup-msg"></p>
+      <button class="popup-close" id="popup-close">Got it!</button>
+    </div>
+  </div>
+
+  <!-- DAILY REFLECTION CARD (shown after save) -->
+  <div class="popup-overlay hidden" id="reflection-overlay">
+    <div class="popup-card reflection-card">
+      <div class="reflection-emoji" id="reflection-emoji">✨</div>
+      <h3 class="popup-title" id="reflection-title">Your Week in Feelings</h3>
+      <div class="reflection-stats" id="reflection-stats"></div>
+      <p class="reflection-insight" id="reflection-insight"></p>
+      <button class="popup-close" id="reflection-close">Thank you 💛</button>
+    </div>
+  </div>
+
+  <!-- CHATBOT PANEL -->
+  <div class="chatbot-fab" id="chatbot-fab" title="Chat with MindfulMe">💬</div>
+  <div class="chatbot-panel hidden" id="chatbot-panel">
+    <div class="chatbot-header">
+      <span class="chatbot-title">🌿 MindfulMe Chat</span>
+      <button class="chatbot-close-btn" id="chatbot-close">✕</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages"></div>
+    <div class="chatbot-input-row">
+      <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Type your answer…" maxlength="200" />
+      <button class="chatbot-send-btn" id="chatbot-send">Send</button>
+    </div>
+  </div>
+
+  <!-- Particle burst container -->
+  <div id="particle-container" style="position:fixed;inset:0;pointer-events:none;z-index:998;"></div>
+
+  <!-- Toast -->
+  <div class="toast hidden" id="toast"><span id="toast-text">✅ Saved!</span></div>
+
+  <script src="app.js"></script>
+  <!-- face-api.js — runs entirely in browser, no data sent anywhere -->
+  <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+  <script src="emotion-detector.js"></script>
+</body>
+</html>
